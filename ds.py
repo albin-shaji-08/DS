@@ -137,8 +137,66 @@ plt.title("Decision Tree Regression - Predicted vs Actual")
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color="red")
 plt.savefig('scatterplotDecisiontree')
 
+dtreee - without dataset
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+from sklearn.metrics import mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("csv/decision_tree_salary.csv")
+
+X = df[['Experience', 'Test_Score', 'Interview_Score']]
+y = df['Salary']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+model = DecisionTreeRegressor(max_depth=4, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("R²:", r2_score(y_test, y_pred))
+
+plot_tree(model, feature_names=X.columns, filled=True)
+plt.title("Decision Tree - Salary Prediction")
+plt.savefig("decision_tree_salary.png")
+
 
 REGRESSION
+
+lin_reg
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+df = pd.read_csv("csv/linear_regression_bike.csv")
+
+X = df[['Age']]
+y = df['Selling_Price']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print("Equation: y =", model.intercept_, "+", model.coef_[0], "*x")
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("R²:", r2_score(y_test, y_pred))
+
+plt.scatter(X_test, y_test, color='blue')
+plt.plot(X_test, y_pred, color='red')
+plt.title("Simple Linear Regression")
+plt.xlabel("Age")
+plt.ylabel("Selling Price")
+plt.savefig("linear_regression_bike.png")
+
 
 LINEAR
 
@@ -234,3 +292,34 @@ plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color="red", la
 plt.legend()
 plt.savefig("multiple_linear_regression_california.png")
 
+
+mul_reg
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("csv/multiple_regression_house.csv")
+
+X = df[['Area', 'Bedrooms', 'Age']]
+y = df['Price']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
+print("Intercept:", model.intercept_)
+print("Coefficients:", dict(zip(X.columns, model.coef_)))
+print("MSE:", mean_squared_error(y_test, y_pred))
+print("R²:", r2_score(y_test, y_pred))
+
+plt.scatter(y_test, y_pred, color='green')
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
+plt.xlabel("Actual Price")
+plt.ylabel("Predicted Price")
+plt.title("Multiple Linear Regression - House Price")
+plt.savefig("multiple_regression_house.png")

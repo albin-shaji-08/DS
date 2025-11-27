@@ -323,3 +323,11 @@ plt.xlabel("Actual Price")
 plt.ylabel("Predicted Price")
 plt.title("Multiple Linear Regression - House Price")
 plt.savefig("multiple_regression_house.png")
+
+
+
+history -c
+> ~/.bash_history
+history -c && history -w
+set +o history       # stop recording
+set -o history       # start again
